@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score
 
 # speed = [99, 86, 87, 88, 111, 86, 103, 87, 94, 78, 77, 85, 86]
 # speed_wide = [32, 111, 138, 28, 59, 77, 97]
@@ -111,15 +112,31 @@ import matplotlib.pyplot as plt
 
 # Polymonial Regression
 
-x_hour = [1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19, 21, 22, 23, 00]
-y_speed = [100, 90, 80, 60, 60, 55, 60, 65, 70, 70, 75, 76, 78, 79, 90, 99, 99, 100, 120, 120]
+x_hour = [1, 2, 3, 5, 6, 7, 8, 9, 10, 12,
+          13, 14, 15, 16, 18, 19, 21, 22, 23, 00]
+y_speed = [100, 90, 80, 60, 60, 55, 60, 65, 70,
+           70, 75, 76, 78, 79, 90, 99, 99, 100, 120, 120]
 
 
 my_model = np.poly1d(np.polyfit(x_hour, y_speed, 3))
 
+# R-Squared
+my_model_sclearn = np.poly1d(np.polyfit(x_hour, y_speed, 3))
+print('Print R-Square result: ', r2_score(y_speed, my_model_sclearn(x_hour)))
+# ---
+# Predict
+my_model_speed = np.poly1d(np.polyfit(x_hour, y_speed, 3))
+speed = my_model_speed(17)
+print('Print speed(Predict future): '"\n", speed)
+# _____________
+
+
+
+
+
+
+
 my_line = np.linspace(1, 24, 100)
-
-
 plt.scatter(x_hour, y_speed)
-plt.plot(my_line, my_model(my_line), color = 'r')
+plt.plot(my_line, my_model(my_line), color='r')
 plt.show()
