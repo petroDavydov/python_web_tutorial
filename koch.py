@@ -1,5 +1,6 @@
 import turtle
 
+
 def koch_curve(t, order, size):
     if order == 0:
         t.forward(size)
@@ -8,24 +9,37 @@ def koch_curve(t, order, size):
             koch_curve(t, order - 1, size / 3)
             t.left(angle)
 
+
 def draw_koch_curve(order, size=300):
-    window = turtle.Screen()
-    window.bgcolor("white")
+    try:
+        window = turtle.Screen()
+        window.bgcolor("white")
 
-    t = turtle.Turtle()
-    t.speed(0)  
-    t.penup()
-    t.goto(-size / 2, size /3) # доданро size /3
-    t.pendown()
+        t = turtle.Turtle()
+        t.speed(0)
+        t.penup()
+        t.goto(-size / 2, size / 3)
+        t.pendown()
 
-# ----------додано----------
+        for _ in range(3):
+            koch_curve(t, order, size)
+            t.right(120)
 
-    for _ in range(3):
-        koch_curve(t, order, size) # вже було
-        t.right(120) # повертаємо на 120 градусів
-# ----------додано----------
+        window.exitonclick()  # use hint(закрити після кліку)
+    except turtle.Terminator:
+        print("Closed before painting ended.")
+    except Exception as error:
+        print(f"Error occured: {error}")
 
-    window.mainloop()
 
-# Виклик функції
-draw_koch_curve(3)
+# Level of recursion
+try:
+    user_order = int(input("Enter level of recursion (0-5): "))
+    if 0 <= user_order <= 5:
+        draw_koch_curve(user_order)
+    else:
+        print("Level of recursion must be from 0 to 5.")
+except ValueError:
+    print("Enter integer numnber(1,2,3,4,5).")
+except turtle.Terminator:
+    print("Window closed before painting ended.")
